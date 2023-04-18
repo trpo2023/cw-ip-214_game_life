@@ -3,7 +3,4 @@
 *.out
 *.swp
 .vscode
-
-
-
-
+bin/game_life_main/game_life_main

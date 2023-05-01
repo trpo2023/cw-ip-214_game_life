@@ -4,6 +4,19 @@
 const int gridsize = 30;
 const int gridsize2 = 80;
 
+void Display(bool grid[gridsize + 1][gridsize2 + 1]){
+    for(int a = 1; a < gridsize; a++){
+        for(int b = 1; b < gridsize2; b++){
+            if(grid[a][b] == true)
+                std::cout << "#";
+            else
+                std::cout << " ";
+            if(b == gridsize2 - 1)
+                std::cout << std::endl;
+        }
+    }
+}
+
 int main(){
 	std::cout << "\n-------------------Welcome to the game - life----------------------\n"
 			  << "-----------------Please, select start game option------------------\n"
@@ -33,4 +46,8 @@ int main(){
 		std::cout << "Your input is not defined";
 		exit(1);
 	}
+
+	Display(grid);
+
+	return 0;
 }

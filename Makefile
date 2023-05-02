@@ -1,59 +1,39 @@
-APP_NAME = game_life_main
-LIB_NAME = game_life_lib
-
-CPPFLAGS = -I src -MP -MMD
 CC = g++
-CFLAGS =
+CFLAGS = -I src/ -I thirdparty/
+LIFE_SRC = src/game_life_main/
+LIBLIFE_SRC = src/game_life_lib/
 
-BIN_ = bin
-BIN_DIR = bin/game_life_main
-OBJ_DIR = obj
-SRC_DIR = src
+LIFE_OBJ = obj/src/game_life_main/
+LIBLIFE_OBJ = obj/src/game_life_lib/
 
-TARGET_OUT_NAME = game_life
-TARGET = main
+BIN = bin/
 
-THIRDPARTY_DIR = thirdparty
+SRC = src/
 
-APP_PATH = $(BIN_DIR)/$(APP_NAME)
-LIB_PATH = $(BIN_DIR)/lib.a
-LIB_OBJ_DIR = obj/src/game_life_lib
-LIB_HEADERS_DIR = $(SRC_DIR)/game_life_lib
+TEST = test/
 
-SRC_EXT = cpp
+TEST_OBJ = obj/test/
 
-APP_SOURCES = $(shell find $(SRC_DIR)/$(APP_NAME) -name '*.$(SRC_EXT)')
-APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+THIRDPARTY = thirdparty/
 
-LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
-LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+.PHONY: main
 
-DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
-
-SRCS := $(shell find . -type f -name '*.cpp')
-HDRS := $(shell find . -type f -name '*.h')
-
-.PHONY: all
-
-all: format $(APP_PATH) clean  
-
--include $(DEPS)
-
-$(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@ 
-
-$(LIB_PATH): $(LIB_OBJECTS)
+$(BIN)game_life_main/main.out: $(LIFE_OBJ)main.o $(LIBLIFE_OBJ)liblife.a
+	$(CC) $(CFLAGS) -o $@ $^
+$(LIFE_OBJ)main.o: $(LIFE_SRC)main.cpp 
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(LIBLIFE_OBJ)liblife.a: 
 	ar rcs $@ $^
-
-$(OBJ_DIR)/%.o: %.cpp
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 .PHONY: clean
 
 clean:
-	$(RM) $(LIB_PATH) 
-	find $(OBJ_DIR) -name '*.o' -exec $(RM) '{}' \;
-	find $(OBJ_DIR) -name '*.d' -exec $(RM) '{}' \;
+	rm -rf $(LIFE_OBJ)*.o
+	rm -rf $(LIBLIFE_OBJ)*.o
+	rm -rf $(LIBLIFE_OBJ)*.a
+	rm -rf $(BIN)*.out
+
+.PHONY: format
 
 format:
-	clang-format -i $(SRCS) $(HDRS)
+	git ls-files *.{cpp,h} | xargs clang-format -i

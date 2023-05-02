@@ -16,14 +16,19 @@ TEST_OBJ = obj/test/
 
 THIRDPARTY = thirdparty/
 
+SRCS := $(shell find . -type f -name '*.cpp')
+HDRS := $(shell find . -type f -name '*.h')
+
 .PHONY: main
 
 $(BIN)game_life_main/main.out: $(LIFE_OBJ)main.o $(LIBLIFE_OBJ)liblife.a
 	$(CC) $(CFLAGS) -o $@ $^
 $(LIFE_OBJ)main.o: $(LIFE_SRC)main.cpp 
 	$(CC) -c $(CFLAGS) -o $@ $^
-$(LIBLIFE_OBJ)liblife.a: 
+$(LIBLIFE_OBJ)liblife.a: $(LIBLIFE_OBJ)display.o
 	ar rcs $@ $^
+$(LIBLIFE_OBJ)display.o: $(LIBLIFE_SRC)display.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
 
 .PHONY: clean
 
@@ -36,4 +41,4 @@ clean:
 .PHONY: format
 
 format:
-	git ls-files *.{cpp,h} | xargs clang-format -i
+	clang-format -i $(SRCS) $(HDRS)

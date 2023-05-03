@@ -1,8 +1,12 @@
 #include <../src/game_life_lib/display.h>
+#include <../src/game_life_lib/liveordie.h>
+#include <../src/game_life_lib/count_life.h>
+#include <../src/game_life_lib/copygrid.h>
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 int main()
 {
@@ -21,7 +25,7 @@ int main()
     bool grid[gridsize + 1][gridsize2 + 1] = {};
     char game_option[3], strings[gridsize + 1][gridsize2 + 1], str[gridsize];
     int rn, k = 0, k2 = 0, n = 0, counter_ = 0;
-    do {
+    
         std::cin >> game_option;
         srand(time(NULL));
         if (strcmp(game_option, "r") == 0) {
@@ -69,7 +73,24 @@ int main()
         } else {
             std::cout << "Your input is not defined";
         }
-        Display(grid);
-    } while (strcmp(game_option, "0") != 0);
+        time_t start_time = time(NULL);
+	bool continue1 = 0;
+    while (true){
+		time_t current_time = time(NULL);
+		if (current_time - start_time >= 30) {
+			start_time = current_time;
+			std::cout << "Continue? Input 1, or 0 to exit: ";
+			std::cin >> continue1;
+			if (!continue1) {
+				exit(0);
+			}   
+		}
+        display(grid);
+        live_or_die(grid);
+		unsigned int nanoseconds = 150000;
+    	usleep(1 * nanoseconds);
+		system("clear");
+	}
+
     return 0;
 }

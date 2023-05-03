@@ -25,9 +25,15 @@ $(BIN)game_life_main/main.out: $(LIFE_OBJ)main.o $(LIBLIFE_OBJ)liblife.a
 	$(CC) $(CFLAGS) -o $@ $^
 $(LIFE_OBJ)main.o: $(LIFE_SRC)main.cpp 
 	$(CC) -c $(CFLAGS) -o $@ $^
-$(LIBLIFE_OBJ)liblife.a: $(LIBLIFE_OBJ)display.o
+$(LIBLIFE_OBJ)liblife.a: $(LIBLIFE_OBJ)display.o $(LIBLIFE_OBJ)count_life.o $(LIBLIFE_OBJ)copygrid.o $(LIBLIFE_OBJ)liveordie.o 
 	ar rcs $@ $^
 $(LIBLIFE_OBJ)display.o: $(LIBLIFE_SRC)display.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(LIBLIFE_OBJ)copygrid.o: $(LIBLIFE_SRC)copygrid.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(LIBLIFE_OBJ)liveordie.o: $(LIBLIFE_SRC)liveordie.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(LIBLIFE_OBJ)count_life.o: $(LIBLIFE_SRC)count_life.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
 .PHONY: clean

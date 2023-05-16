@@ -14,3 +14,15 @@ void display(bool grid[gridsize + 1][gridsize2 + 1])
         }
     }
 }
+
+void print_menu()
+{
+    std::cout << "\n-----------------Please, select start game "
+                 "option------------------\n"
+              << "----------Input 'r', if random, input 'f', if from "
+                 "file------------\n"
+              << "---------------Then the program will run for 30 "
+                 "seconds------------\n"
+              << "---You can end the program by entering '0' or by pressing "
+                 "CTRL+Z---\n";
+}

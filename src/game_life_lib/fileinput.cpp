@@ -13,7 +13,7 @@ void file_input(bool grid[gridsize + 1][gridsize2 + 1], int counter_)
         str += ch;
     }
     std::string s1 = "#";
-    int* arr = (int*)malloc(str.length() * sizeof(int));
+    int* arr = new int(str.length());
     for (int i = 0; i < str.length(); i++) {
         if (str[i] == s1[0]) {
             arr[i] = 1;
@@ -33,5 +33,5 @@ void file_input(bool grid[gridsize + 1][gridsize2 + 1], int counter_)
             }
         }
     }
-    free(arr);
+    delete arr;
 }

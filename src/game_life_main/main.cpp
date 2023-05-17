@@ -16,8 +16,8 @@ int main()
     const int gridsize = 30;
     const int gridsize2 = 80;
     bool grid[gridsize + 1][gridsize2 + 1] = {};
-    char game_option[3], strings[gridsize + 1][gridsize2 + 1];
-    int rn, k = 0, k2 = 0, n = 0, counter_ = 0;
+    char game_option[3];
+    int rn = 0, counter_ = 0;
     do {
         for (int i = 0; i < gridsize + 1; i++) {
             for (int j = 0; j < gridsize2 + 1; j++) {
@@ -40,7 +40,7 @@ int main()
         char continue1[3];
         do {
             time_t current_time = time(NULL);
-            if (current_time - start_time >= 3) {
+            if (current_time - start_time >= 30) {
                 start_time = current_time;
                 std::cout << "Continue? Input any value, m to menu, or 0 to "
                              "exit: ";

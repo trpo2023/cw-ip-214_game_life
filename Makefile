@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -I src/ -I thirdparty/
+CFLAGS = -Wall -Wextra -Werror -I src/ -I thirdparty/
 LIFE_SRC = src/game_life_main/
 LIBLIFE_SRC = src/game_life_lib/
 
@@ -8,11 +8,13 @@ LIBLIFE_OBJ = obj/src/game_life_lib/
 
 BIN = bin/
 
+TEST_BIN = bin/game_life_test/
+
 SRC = src/
 
 TEST = test/
 
-TEST_OBJ = obj/test/
+TEST_OBJ = obj/game_life_test/
 
 THIRDPARTY = thirdparty/
 
@@ -40,12 +42,32 @@ $(LIBLIFE_OBJ)randominput.o: $(LIBLIFE_SRC)randominput.cpp
 $(LIBLIFE_OBJ)fileinput.o: $(LIBLIFE_SRC)fileinput.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
+.PHONY: test
+
+test: $(BIN)game_life_test/test
+	./$<
+
+$(BIN)game_life_test/test: $(TEST_OBJ)ctest.o $(TEST_OBJ)main.o $(TEST_OBJ)testliblife.a 
+	$(CC) $(CFLAGS) -o $@ $^
+$(TEST_OBJ)ctest.o: $(TEST)ctest.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(TEST_OBJ)main.o: $(TEST)main.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(TEST_OBJ)testliblife.a: $(TEST_OBJ)randominput.o $(TEST_OBJ)fileinput.o
+	ar rcs $@ $^
+$(TEST_OBJ)randominput.o: $(LIBLIFE_SRC)randominput.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(TEST_OBJ)fileinput.o: $(LIBLIFE_SRC)fileinput.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+
 .PHONY: clean
 
 clean:
 	rm -rf $(LIFE_OBJ)*.o
 	rm -rf $(LIBLIFE_OBJ)*.o
 	rm -rf $(LIBLIFE_OBJ)*.a
+	rm -rf $(TEST_OBJ)*.o
+	rm -rf $(TEST_OBJ)*.a
 	rm -rf $(BIN)*.out
 
 .PHONY: format

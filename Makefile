@@ -53,11 +53,17 @@ $(TEST_OBJ)ctest.o: $(TEST)ctest.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 $(TEST_OBJ)main.o: $(TEST)main.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
-$(TEST_OBJ)testliblife.a: $(TEST_OBJ)randominput.o $(TEST_OBJ)fileinput.o
+$(TEST_OBJ)testliblife.a: $(TEST_OBJ)randominput.o $(TEST_OBJ)fileinput.o $(TEST_OBJ)copygrid.o $(TEST_OBJ)countlife.o $(TEST_OBJ)liveordie.o
 	ar rcs $@ $^
 $(TEST_OBJ)randominput.o: $(LIBLIFE_SRC)randominput.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 $(TEST_OBJ)fileinput.o: $(LIBLIFE_SRC)fileinput.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(TEST_OBJ)copygrid.o: $(LIBLIFE_SRC)copygrid.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(TEST_OBJ)countlife.o: $(LIBLIFE_SRC)countlife.cpp
+	$(CC) -c $(CFLAGS) -o $@ $^
+$(TEST_OBJ)liveordie.o: $(LIBLIFE_SRC)liveordie.cpp
 	$(CC) -c $(CFLAGS) -o $@ $^
 
 .PHONY: clean

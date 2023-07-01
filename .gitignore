@@ -4,5 +4,3 @@
 *.out
 *.swp
 .vscode
-bin/game_life_main/game_life_main
-bin/game_life_test/

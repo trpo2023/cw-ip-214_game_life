@@ -4,3 +4,4 @@
 *.out
 *.swp
 .vscode
+.DS_Store
